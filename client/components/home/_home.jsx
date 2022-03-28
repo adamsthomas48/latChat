@@ -5,6 +5,8 @@ import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
 import { Ping } from './ping';
+import { TopNav } from '../common/topNav';
+import { Input } from '../common/input';
 
 export const Home = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -15,9 +17,27 @@ export const Home = () => {
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [roomName, setRoomName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [chatRooms, setChatRooms] = useState([]);
+
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
+
+    navigator.geolocation.getCurrentPosition((location) => {
+      setLatitude(location.coords.latitude);
+      setLongitude(location.coords.longitude);
+
+    }, (err) => {
+      console.log(err);
+    });
+
+    const rooms = await api.get('/chat_rooms');
+    setChatRooms(rooms.chatRooms);
+
     setLoading(false);
   }, []);
 
@@ -32,20 +52,42 @@ export const Home = () => {
     return <div>Loading...</div>;
   }
 
+  const createChatRoom = async () => {
+    if(roomName == ''){
+      setErrorMessage('Room Name Cannot Be Empty');
+      return;
+    }
+
+    var userId = user.id;
+    const { chatRoom } = await api.post('/chat_rooms', {
+      roomName,
+      latitude,
+      longitude,
+      userId,
+    });
+    console.log(chatRoom);
+    setChatRooms([...chatRooms, chatRoom]);
+  };
+
   return (
-    <div className="p-4">
-      <h1>Welcome {user.firstName}</h1>
-      <Button type="button" onClick={logout}>
-        Logout
-      </Button>
-      {roles.includes('admin') && (
-        <Button type="button" onClick={() => navigate('/admin')}>
-          Admin
-        </Button>
-      )}
-      <section>
-        <Ping />
-      </section>
+    <div>
+      <TopNav/>
+      <div className="p-4 body">
+        <h1>Welcome {user.firstName}</h1>
+        {roles.includes('admin') && (
+          <Button type="button" onClick={() => navigate('/admin')}>
+            Admin
+          </Button>
+        )}
+        <Input type="text" value={roomName} onChange={(e) => setRoomName(e.target.value)} />
+        <Button type="button" onClick={createChatRoom}>Create New Room</Button>
+        <div>{errorMessage}</div>
+
+        {chatRooms.map((room) => (
+          <div key={room.id}>Name: {room.name} ------------- UserId: {room.userId}</div>
+        ))}
+        
+      </div>
     </div>
   );
 };

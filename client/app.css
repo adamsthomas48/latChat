@@ -3,3 +3,61 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.topNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #910404;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.body {
+    margin: 5px 10% 5px 10%;
+}
+
+.nav-links {
+    display: flex;
+}
+
+.nav-button {
+    flex: 1;
+    margin-left: 10px;
+    padding: 10px 5px 5px 5px;
+    border: solid;
+    border-color: white;
+    max-width: 100px;
+    border-radius: 3px;
+    color: white;
+    text-align: center;
+}
+
+.center {
+    margin: auto;
+}
+
+.nav-item {
+    flex: 1;
+    color: white;
+    
+    margin-left: 10px;
+    padding: 10px 5px 5px 5px;
+    border-left: solid;
+    border-color: white;
+    max-width: 150px;
+    text-decoration: underline;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.logo {
+    flex: 2;
+    color: white;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+    font-weight: bolder;
+    
+}
