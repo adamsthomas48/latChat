@@ -39,7 +39,7 @@ export class PingGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       console.log(client.handshake.query);
       console.log('Client Connected: ', jwtBody.userId);
     } catch (e) {
-      throw new WsException('Invalid token');
+      //throw new WsException('Invalid token');
     }
   }
 
