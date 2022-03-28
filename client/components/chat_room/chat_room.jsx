@@ -7,6 +7,7 @@ import { Button } from '../common/button';
 import { TopNav } from '../common/topNav';
 import { Input } from '../common/input';
 import { useParams } from 'react-router-dom';
+import { useMessages } from '../../utils/use_messages';
 
 export const ChatRoom = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -18,6 +19,8 @@ export const ChatRoom = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [chatRoom, setChatRoom] = useState('');
+  const [contents, setContents] = useState('');
+  const [messages, sendMessage] = useMessages(chatRoom);
 
   const {id} = useParams();
 
@@ -44,12 +47,20 @@ export const ChatRoom = () => {
       <TopNav/>
       <div className="p-4 body">
         <h1>ChatRoom: {chatRoom.name}</h1>
+        <div>
+            {messages.map((message) => (
+                <div key={message.id}>
+                    <h2>{message.userName}</h2>
+                    <p>{message.contents}</p>
+                </div>
+            ))}
+        </div>
         <div className="bottom-bar">
             <div className="send-field">
-                <input className="send" type="text" placeholder="Send Message" />
+                <input className="send" type="text" placeholder="Send Message" value={contents} onChange={(e) => setContents(e.target.value)} />
             </div>
             <div className="send-button">
-                <button className="center" type="submit">Send</button>
+                <button className="center" type="submit" onClick={() => sendMessage(contents, user)}>Send</button>
             </div>
         </div>
         
