@@ -49,12 +49,29 @@ export const ChatRoom = () => {
         <h1>ChatRoom: {chatRoom.name}</h1>
         <div className="chat-box">
             {messages.map((message) => (
-                <div key={message.id} className="message-line">
-                    <div className="user">{message.userName}</div>
-                    <div className="message">
+                <div>
+                    {message.userId == user.id && (
+                        <div key={message.id} className="message-line-user">
                         
-                        <p>{message.contents}</p>
-                    </div>
+                            
+                            <div className="user-message">
+                                
+                                <p>{message.contents}</p>
+                            </div>
+                            <div className="user">{message.userName}</div>
+                        </div>
+                    )}
+                    {message.userId != user.id && (
+                        <div key={message.id} className="message-line">
+                        
+                            <div className="user">{message.userName}</div>
+                            <div className="message">
+                                
+                                <p>{message.contents}</p>
+                            </div>
+                        </div>
+                    )}
+                    
                 </div>
             ))}
         </div>
