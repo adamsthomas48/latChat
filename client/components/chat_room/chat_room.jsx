@@ -47,11 +47,14 @@ export const ChatRoom = () => {
       <TopNav/>
       <div className="p-4 body">
         <h1>ChatRoom: {chatRoom.name}</h1>
-        <div>
+        <div className="chat-box">
             {messages.map((message) => (
-                <div key={message.id}>
-                    <h2>{message.userName}</h2>
-                    <p>{message.contents}</p>
+                <div key={message.id} className="message-line">
+                    <div className="user">{message.userName}</div>
+                    <div className="message">
+                        
+                        <p>{message.contents}</p>
+                    </div>
                 </div>
             ))}
         </div>
