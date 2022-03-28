@@ -1,0 +1,40 @@
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ChatRoom } from 'server/entities/chat_room.entity';
+import { ChatRoomsService } from 'server/providers/services/chat_rooms.service';
+import * as crypto from 'crypto';
+
+class ChatRoomBody {
+  roomName: string;
+  latitude: number;
+  longitude: number;
+  userId: number;
+}
+
+@Controller()
+export class ChatRoomsController {
+    constructor(private chatRoomsService: ChatRoomsService) {}
+
+    @Get('/chat_rooms')
+    async index() {
+        const chatRooms = await this.chatRoomsService.findAll();
+        return { chatRooms };
+    }
+
+    @Get('/chat_rooms/:id')
+    public async getRoomById(@Param("id") id: string) {
+        const chatRoom = await this .chatRoomsService.findRoomById(parseInt(id, 10));
+        return { chatRoom } ;
+    }
+
+    @Post('/chat_rooms')
+    async create(@Body() body: ChatRoomBody){
+        console.log(body);
+        let chatRoom = new ChatRoom();
+        chatRoom.name = body.roomName;
+        chatRoom.latitude = body.latitude;
+        chatRoom.longitude = body.longitude;
+        chatRoom.userId = body.userId;
+        chatRoom.roomkey = crypto.randomBytes(8).toString('hex');
+        chatRoom = await this.chatRoomsService.create(chatRoom);
+    }
+}

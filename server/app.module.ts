@@ -11,9 +11,10 @@ import { JwtService } from './providers/services/jwt.service';
 import { RolesService } from './providers/services/roles.service';
 import { UsersService } from './providers/services/users.service';
 import { GuardUtil } from './providers/util/guard.util';
+import { ChatRoomsModule } from './modules/chat_room.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config), UsersModule],
+  imports: [TypeOrmModule.forRoot(config), UsersModule, ChatRoomsModule],
   controllers: [AppController],
   providers: [
     PingGateway,
