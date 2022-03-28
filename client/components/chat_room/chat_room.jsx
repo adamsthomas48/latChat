@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
 import { TopNav } from '../common/topNav';
 import { Input } from '../common/input';
+import { useParams } from 'react-router-dom';
 
 export const ChatRoom = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -20,11 +21,16 @@ export const ChatRoom = () => {
   const [longitude, setLongitude] = useState(null);
   const [roomName, setRoomName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [chatRooms, setChatRooms] = useState([]);
+  const [chatRoom, setChatRoom] = useState('');
+
+  const {id} = useParams();
 
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
+
+
+
 
     setLoading(false);
   }, []);
