@@ -44,6 +44,14 @@ export const ChatRoom = () => {
       <TopNav/>
       <div className="p-4 body">
         <h1>ChatRoom: {chatRoom.name}</h1>
+        <div className="bottom-bar">
+            <div className="send-field">
+                <input className="send" type="text" placeholder="Send Message" />
+            </div>
+            <div className="send-button">
+                <button className="center" type="submit">Send</button>
+            </div>
+        </div>
         
       </div>
     </div>

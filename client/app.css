@@ -19,6 +19,48 @@
     margin: 5px 10% 5px 10%;
 }
 
+.bottom-bar {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 2%;;
+    justify-content: space-between;
+    width:80%;
+    height: 55px;
+    bottom: 0;
+    border-radius: 10px 0px 10px 10px;
+    background-color: rgb(184, 255, 251);
+}
+
+.send{
+    display: flex;
+    width: 100%;
+    height: 70%;
+    padding-left: 10px;
+    border-radius: 10px 0 10px 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.send-field {
+    padding-right: 40px;
+    flex: 2;
+    margin: auto;
+    width: 100%;
+    
+    
+}
+
+.send-button{
+    flex: 1;
+    margin: auto;
+    
+    background-color: white;
+    border: solid;
+
+    
+}
+
 .nav-links {
     display: flex;
 }
@@ -33,6 +75,7 @@
     border-radius: 3px;
     color: white;
     text-align: center;
+    left: 50%
 }
 
 .center {
