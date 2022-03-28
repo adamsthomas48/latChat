@@ -17,10 +17,6 @@ export const ChatRoom = () => {
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-  const [roomName, setRoomName] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [chatRoom, setChatRoom] = useState('');
 
   const {id} = useParams();
@@ -29,7 +25,9 @@ export const ChatRoom = () => {
     const res = await api.get('/users/me');
     setUser(res.user);
 
-
+    const room = await api.get(`/chat_rooms/${id}`);
+    setChatRoom(room.chatRoom);
+    console.log(room);
 
 
     setLoading(false);
@@ -45,7 +43,7 @@ export const ChatRoom = () => {
     <div>
       <TopNav/>
       <div className="p-4 body">
-        <h1>ChatRoom</h1>
+        <h1>ChatRoom: {chatRoom.name}</h1>
         
       </div>
     </div>
