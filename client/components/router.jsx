@@ -19,7 +19,7 @@ export const Router = () => {
       <Route path="admin" element={<Admin />} />
       <Route path="signin" element={<SignIn />} />
       <Route path="signup" element={<SignUp />} />
-      <Route path="chatroom" element={<ChatRoom />} />
+      <Route path="chatroom/:id" element={<ChatRoom />} />
     </Routes>
   );
 };

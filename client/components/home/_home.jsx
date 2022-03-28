@@ -84,7 +84,7 @@ export const Home = () => {
         <div>{errorMessage}</div>
 
         {chatRooms.map((room) => (
-          <div key={room.id}>Name: {room.name} ------------- UserId: {room.userId}</div>
+          <div key={room.id} onClick={() => navigate(`/chatroom/${room.id}`)}>Name: {room.name} ------------- UserId: {room.userId}</div>
         ))}
         
       </div>
