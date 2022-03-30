@@ -27,14 +27,15 @@
 .bottom-bar {
     display: flex;
     position: fixed;
-    right: auto;
-    height: 42px;
+    height: 55px;
     padding-left: 8px;
+    padding-right: 8px;
     border: 1px solid var(--light);
     background-color: #eceff1;
-    width: 80%;
+    width: 65%;
     border-radius: 5px;
     bottom: 10;
+    
 }
 
 .send{
@@ -49,7 +50,7 @@
 }
 
 .send-field {
-    flex: 1;
+    
     display: flex;
     padding-right: 40px;
     flex: 2;
@@ -115,6 +116,8 @@
 }
 
 .chat-box {
+    display: flex;
+    flex-direction: column;
     padding-bottom: 20%;
 }
 
