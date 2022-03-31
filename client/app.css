@@ -24,6 +24,24 @@
     
 }
 
+h1 {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.fixed{
+    position: fixed;
+}
+
 .bottom-bar {
     display: flex;
     position: fixed;
@@ -36,6 +54,38 @@
     border-radius: 5px;
     bottom: 10;
     
+}
+
+.room-card{
+    display: flex;
+    border:rgb(231, 228, 228);
+    border-radius: 10px;
+    height: 60px;
+    margin: 10px 0 10px 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    background-color: rgb(231, 228, 228);
+    box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+
+}
+
+.room-card:hover{
+    background-color: rgb(243, 180, 180);
+    
+}
+
+.room-card > h2{
+    flex: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+.room-card > p {
+    flex: 1;
+    text-align: end;
 }
 
 .send{
@@ -63,10 +113,15 @@
 }
 
 .send-button{
-    flex: 1;
+    
     margin: auto;
-    background-color: white;
     border: solid;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #910404;
+    color: white;
+    opacity: 80%;
 
     
 }
@@ -119,6 +174,7 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 20%;
+    margin-top: 80px;
 }
 
 
@@ -140,13 +196,20 @@
 }
 
 .user {
-    flex: 1;
+    text-align: right;
+    margin-top: -15px;
+    margin-bottom: 20px;
+}
+
+.user-recieved {
+    margin-top: -15px;
+    margin-bottom: 20px;
 }
 
 .message {
     flex: 3;
     border-radius: 20px 20px 20px 0;
-    background-color:rgb(177, 177, 177);
+    background-color:rgb(231, 228, 228);
 
     padding: 10px;
 }

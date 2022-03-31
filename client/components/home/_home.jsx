@@ -7,6 +7,7 @@ import { Button } from '../common/button';
 import { Ping } from './ping';
 import { TopNav } from '../common/topNav';
 import { Input } from '../common/input';
+import { RoomCard } from './room_card';
 
 export const Home = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -65,7 +66,6 @@ export const Home = () => {
       longitude,
       userId,
     });
-    console.log(chatRoom);
     setChatRooms([...chatRooms, chatRoom]);
   };
 
@@ -84,7 +84,8 @@ export const Home = () => {
         <div>{errorMessage}</div>
 
         {chatRooms.map((room) => (
-          <div key={room.id} onClick={() => navigate(`/chatroom/${room.id}`)}>Name: {room.name} ------------- UserId: {room.userId}</div>
+          
+          <RoomCard key={room.id} onClick={() => navigate(`/chatroom/${room.id}`)} room={room} userLat={latitude} userLong={longitude}/>
         ))}
         
       </div>

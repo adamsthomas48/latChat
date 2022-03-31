@@ -46,30 +46,38 @@ export const ChatRoom = () => {
     <div>
       <TopNav/>
       <div className="p-4 body">
-        <h1>ChatRoom: {chatRoom.name}</h1>
+        <div className="fixed">
+          <h1>ChatRoom: {chatRoom.name}</h1>
+          <hr />
+
+        </div>
         <div className="chat-box">
             {messages.map((message) => (
                 <div>
                     {message.userId == user.id && (
-                        <div key={message.id} className="message-line-user">
-                        
+                      <div>
+                            <div key={message.id} className="message-line-user">
                             
-                            <div className="user-message">
                                 
-                                <p>{message.contents}</p>
+                                <div className="user-message">
+                                    
+                                    <p>{message.contents}</p>
+                                </div>
                             </div>
                             <div className="user">{message.userName}</div>
                         </div>
                     )}
                     {message.userId != user.id && (
+                      <div>
                         <div key={message.id} className="message-line">
                         
-                            <div className="user">{message.userName}</div>
                             <div className="message">
                                 
                                 <p>{message.contents}</p>
                             </div>
                         </div>
+                            <div className="user-recieved">{message.userName}</div>
+                      </div>
                     )}
                     
                 </div>
@@ -79,9 +87,9 @@ export const ChatRoom = () => {
             <div className="send-field">
                 <input className="send" type="text" placeholder="Send Message" value={contents} onChange={(e) => setContents(e.target.value)} />
             </div>
-            <div className="send-button">
-                <button className="center" type="submit" onClick={() => sendMessage(contents, user)}>Send</button>
-            </div>
+            
+            <button className="send-button" type="submit" onClick={() => sendMessage(contents, user)}>Send</button>
+            
         </div>
         
       </div>
