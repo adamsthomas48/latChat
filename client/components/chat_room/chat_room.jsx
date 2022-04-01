@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
@@ -13,6 +13,7 @@ export const ChatRoom = () => {
   const [, setAuthToken] = useContext(AuthContext);
   const api = useContext(ApiContext);
   const roles = useContext(RolesContext);
+  const messagesRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -24,14 +25,17 @@ export const ChatRoom = () => {
 
   const {id} = useParams();
 
+  const scrollToBottom = () => {
+    messagesRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
 
     const room = await api.get(`/chat_rooms/${id}`);
     setChatRoom(room.chatRoom);
-    console.log(room);
-
+    scrollToBottom
 
     setLoading(false);
   }, []);
@@ -40,6 +44,9 @@ export const ChatRoom = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  
+
 
 
   return (
@@ -82,6 +89,7 @@ export const ChatRoom = () => {
                     
                 </div>
             ))}
+            <div ref={messagesRef} />
         </div>
         <div className="bottom-bar">
             <div className="send-field">

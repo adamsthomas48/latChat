@@ -1,37 +1,48 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
+import { ApiContext } from '../../utils/api_context';
+import { ChatRoom } from '../chat_room/chat_room';
 
-export const RoomCard = ({ room, userLat, userLong }) => {
-    const [distance, setDistance] = useState(null);
+
+export const RoomCard = ({ room, user, userLat, userLong }) => {
     const [loading, setLoading] = useState(true);
+    const [uLat, setULat] = useState(userLat);
+    const [uLong, setULong] = useState(userLong);
+
+    const [distance, setDistance] = useState(null);
+    
+    const api = useContext(ApiContext);
 
     const navigate = useNavigate();
 
 
     const getDistance = async () => {
-        let longRad = room.longitude * Math.PI / 180;
-        let userLongRad = userLong * Math.PI / 180;
-        let latRad = room.latitude * Math.PI / 180;
-        let userLatRad = userLat * Math.PI / 180;
+        var longRad = room.longitude * Math.PI / 180;
+        var userLongRad = userLong * Math.PI / 180;
+        var latRad = room.latitude * Math.PI / 180;
+        var userLatRad = userLat * Math.PI / 180;
 
-        let dlon = longRad - userLongRad;
-        let dlat = latRad - userLatRad;
-        let a = Math.pow(Math.sin(dlat / 2), 2) + Math.cos(latRad) * Math.cos(userLatRad)
+        var dlon = longRad - userLongRad;
+        var dlat = latRad - userLatRad;
+
+        var a = Math.pow(Math.sin(dlat / 2), 2) + Math.cos(latRad) * Math.cos(userLatRad)
                                                 * Math.pow(Math.sin(dlon / 2), 2);
 
-        let c = 2 * Math.asin(Math.sqrt(a));
+        var c = 2 * Math.asin(Math.sqrt(a));
 
-        let r = 6371;
+        var r = 6371;
 
-        let dist = Math.round(c * r);
+        var dist = Math.round(c * r);
+        
         setDistance(dist);
     }
 
     useEffect(async  => {
+        console.log(userLat);
         getDistance();
-
+        
+        
         setLoading(false);
-
     }, []);
 
     if(loading){
@@ -41,14 +52,22 @@ export const RoomCard = ({ room, userLat, userLong }) => {
     }
 
     if(distance > 10){
-        return (<div className="hidden"></div>);
+        //return (<div className="hidden"></div>);
+    }
+
+    const deleteRoom = async (project) => {
+        const { success } = await api.del(`/chat_rooms/${room.id}`);
+
     }
 
     
     return (
         <div className="room-card" onClick={() => navigate(`/chatroom/${room.id}`)}>
-            <h2>{room.name}</h2>
+            <h3>{room.name}</h3>
             <p>{distance} Miles Away</p>
+            {user.id == room.userId && (
+                <button className="delete" onClick={deleteRoom}>Delete</button>
+            )}
             
 
         </div>

@@ -25,4 +25,8 @@ export class ChatRoomsService {
   findRoomById(id: number) {
     return this.chatRoomRepository.findOne(id);
   }
+
+  removeChatRoom(chatRoom: ChatRoom) {
+    this.chatRoomRepository.delete(chatRoom);
+  }
 }

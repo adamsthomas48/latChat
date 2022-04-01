@@ -23,6 +23,7 @@ export const Home = () => {
   const [roomName, setRoomName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [chatRooms, setChatRooms] = useState([]);
+  
 
   useEffect(async () => {
     const res = await api.get('/users/me');
@@ -38,9 +39,10 @@ export const Home = () => {
 
     const rooms = await api.get('/chat_rooms');
     setChatRooms(rooms.chatRooms);
+    console.log(rooms);
 
     setLoading(false);
-  }, []);
+  }, [latitude]);
 
   const logout = async () => {
     const res = await api.del('/sessions');
@@ -49,9 +51,10 @@ export const Home = () => {
     }
   };
 
-  if (loading) {
+  if (loading || latitude == null || longitude == null) {
     return <div>Loading...</div>;
   }
+
 
   const createChatRoom = async () => {
     if(roomName == ''){
@@ -82,10 +85,10 @@ export const Home = () => {
         <Input type="text" value={roomName} onChange={(e) => setRoomName(e.target.value)} />
         <Button type="button" onClick={createChatRoom}>Create New Room</Button>
         <div>{errorMessage}</div>
-
+        <h2>Chat Rooms Near You</h2>
         {chatRooms.map((room) => (
           
-          <RoomCard key={room.id} onClick={() => navigate(`/chatroom/${room.id}`)} room={room} userLat={latitude} userLong={longitude}/>
+          <RoomCard key={room.id} onClick={() => navigate(`/chatroom/${room.id}`)} room={room} user={user} userLat={latitude} userLong={longitude}/>
         ))}
         
       </div>
