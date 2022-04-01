@@ -2,13 +2,13 @@ import { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { ApiContext } from '../../utils/api_context';
 import { ChatRoom } from '../chat_room/chat_room';
+import { Button } from '../common/button';
 
 
 export const RoomCard = ({ room, user, userLat, userLong }) => {
     const [loading, setLoading] = useState(true);
-    const [uLat, setULat] = useState(userLat);
-    const [uLong, setULong] = useState(userLong);
-
+    const [chatRoom, setChatRoom] = useState(room);
+    const [deleted, setDeleted] = useState(false);
     const [distance, setDistance] = useState(null);
     
     const api = useContext(ApiContext);
@@ -40,6 +40,7 @@ export const RoomCard = ({ room, user, userLat, userLong }) => {
     useEffect(async  => {
         console.log(userLat);
         getDistance();
+        setChatRoom(room);
         
         
         setLoading(false);
@@ -50,24 +51,31 @@ export const RoomCard = ({ room, user, userLat, userLong }) => {
             <div>Loading</div>
         )
     }
+    if(deleted){
+        return(<div className="hidden"></div>);
+    }
 
-    if(distance > 10){
-        //return (<div className="hidden"></div>);
+    if(distance > 100){
+        return (<div className="hidden"></div>);
     }
 
     const deleteRoom = async (project) => {
         const { success } = await api.del(`/chat_rooms/${room.id}`);
+        setDeleted(true);
 
     }
 
     
     return (
-        <div className="room-card" onClick={() => navigate(`/chatroom/${room.id}`)}>
-            <h3>{room.name}</h3>
-            <p>{distance} Miles Away</p>
+        <div className="room-card flex" >
+            <div className="flex-1 flex" onClick={() => navigate(`/chatroom/${room.id}`)}>
+                <h3 className="flex-2">{room.name}</h3>
+                <p className="flex-1 text-right">{distance} Miles Away</p>
+            </div>
             {user.id == room.userId && (
-                <button className="delete" onClick={deleteRoom}>Delete</button>
+                <Button onClick={deleteRoom}>Delete</Button>
             )}
+
             
 
         </div>

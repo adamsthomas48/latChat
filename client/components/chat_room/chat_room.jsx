@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState, useRef, React } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
@@ -13,7 +13,8 @@ export const ChatRoom = () => {
   const [, setAuthToken] = useContext(AuthContext);
   const api = useContext(ApiContext);
   const roles = useContext(RolesContext);
-  const messagesRef = useRef(null);
+  const messageEl = useRef(null);
+ 
 
   const navigate = useNavigate();
 
@@ -26,8 +27,9 @@ export const ChatRoom = () => {
   const {id} = useParams();
 
   const scrollToBottom = () => {
-    messagesRef.current?.scrollIntoView({ behavior: "smooth" })
+    messageEl.current.scrollIntoView({ behavior: "smooth" })
   }
+
 
   useEffect(async () => {
     const res = await api.get('/users/me');
@@ -35,9 +37,11 @@ export const ChatRoom = () => {
 
     const room = await api.get(`/chat_rooms/${id}`);
     setChatRoom(room.chatRoom);
-    scrollToBottom
+    
+    scrollToBottom;
 
     setLoading(false);
+    scrollToBottom();
   }, []);
 
 
@@ -46,19 +50,26 @@ export const ChatRoom = () => {
   }
 
   
-
+const send = (e) => {
+  if(contents != '' && e.key == 'Enter'){
+    sendMessage(contents, user);
+    setContents('');
+    scrollToBottom();
+  }
+} 
 
 
   return (
     <div>
       <TopNav/>
       <div className="p-4 body">
-        <div className="fixed">
+        <div className="chat-title">
           <h1>ChatRoom: {chatRoom.name}</h1>
           <hr />
 
         </div>
-        <div className="chat-box">
+        
+        <div className="chat-box" >
             {messages.map((message) => (
                 <div>
                     {message.userId == user.id && (
@@ -89,14 +100,19 @@ export const ChatRoom = () => {
                     
                 </div>
             ))}
-            <div ref={messagesRef} />
+            <div />
         </div>
+        <div ref={messageEl} />
         <div className="bottom-bar">
             <div className="send-field">
-                <input className="send" type="text" placeholder="Send Message" value={contents} onChange={(e) => setContents(e.target.value)} />
+                <input className="send" type="text" placeholder="Send Message" value={contents} onKeyPress={(e) => send(e)} onChange={(e) => setContents(e.target.value)} />
             </div>
             
-            <button className="send-button" type="submit" onClick={() => sendMessage(contents, user)}>Send</button>
+            <button className="send-button" type="submit" onClick={() => {
+              sendMessage(contents, user)
+              setContents('');
+              scrollToBottom();
+              }}>Send</button>
             
         </div>
         

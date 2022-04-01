@@ -52,7 +52,7 @@ export const Home = () => {
   };
 
   if (loading || latitude == null || longitude == null) {
-    return <div>Loading...</div>;
+    return <h1 className="text-center mt-5">Getting Location...</h1>;
   }
 
 
@@ -70,22 +70,27 @@ export const Home = () => {
       userId,
     });
     setChatRooms([...chatRooms, chatRoom]);
+
+    navigate(`/chatroom/${chatRoom.id}`);
   };
 
   return (
     <div>
       <TopNav/>
       <div className="p-4 body">
-        <h1>Welcome {user.firstName}</h1>
-        {roles.includes('admin') && (
-          <Button type="button" onClick={() => navigate('/admin')}>
-            Admin
-          </Button>
-        )}
-        <Input type="text" value={roomName} onChange={(e) => setRoomName(e.target.value)} />
-        <Button type="button" onClick={createChatRoom}>Create New Room</Button>
-        <div>{errorMessage}</div>
+        <div className="flex-1 flex">
+          <h1 className="flex-1">Welcome {user.firstName}</h1>
+          <div className="flex-2">
+          <Input type="text" value={roomName} placeholder="Room Title" onChange={(e) => setRoomName(e.target.value)} />
+          <Button type="button" onClick={createChatRoom}>Create New Room</Button>
+          <div className="text-red">{errorMessage}</div>
+          </div>
+        </div>
+        
+        
+        <hr/>
         <h2>Chat Rooms Near You</h2>
+        <div className="text-italic">(Showing chat rooms withing 100 miles of your location)</div>
         {chatRooms.map((room) => (
           
           <RoomCard key={room.id} onClick={() => navigate(`/chatroom/${room.id}`)} room={room} user={user} userLat={latitude} userLong={longitude}/>

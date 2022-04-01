@@ -26,6 +26,7 @@ export const TopNav = () => {
     if (res.success) {
       setAuthToken(null);
     }
+    navigate('/signin');
   };
 
   if (loading) {
@@ -35,9 +36,13 @@ export const TopNav = () => {
   return (
     <div className="topNav">
         <div className="logo" onClick={() => navigate('/')}>Chat App</div>
-        <div className="nav-item" onClick={() => navigate('/chatroom')}>View ChatRoom</div>
-        <div className="nav-item">Link 2</div>
-        <div className="nav-button" onClick={logout}>Logout</div>
+        
+        {roles.includes('admin') && (
+          <Button type="button" onClick={() => navigate('/admin')}>
+            Admin
+          </Button>
+        )}
+        <Button onClick={logout}>Logout</Button>
     </div>
   );
 };

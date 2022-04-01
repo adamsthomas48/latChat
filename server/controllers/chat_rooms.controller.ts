@@ -47,6 +47,6 @@ export class ChatRoomsController {
             throw new HttpException('Unauthorized', 401);
         }
         this.chatRoomsService.removeChatRoom(chatRoom);
-        return  { success: true };
+        return  { chatRoom };
     }
 }
